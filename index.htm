@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Undangan Pernikahan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta property="og:title" content="Wedding Invitation Satya and Della">
+  <meta property="og:description" content="We invite you to attend our wedding.">
+  <meta property="og:image" content="https://YOUR-NETLIFY-SITE.netlify.app/thumb.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://YOUR-NETLIFY-SITE.netlify.app">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Wrapper 9:16 */
+    .wrapper {
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 9 / 16;
+      position: relative;
+      background: url("cover.jpg") no-repeat center center;
+      background-size: cover;
+      box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    }
+
+    .overlay {
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .guest-name {
+      font-size: 18px;
+      margin-bottom: 24px;
+      font-weight: 300;
+    }
+
+    .btn-open {
+      padding: 16px 40px;
+      font-size: 18px;
+      border-radius: 50px;
+      border: none;
+      background: #ffffff;
+      color: #272e16;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,.4);
+      transition: 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+    }
+
+    .btn-open:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div class="overlay">
+      <div class="guest-name" id="guestName">
+    Dear,<br><strong>Name</strong>
+      </div>
+
+      <button class="btn-open" id="playBtn">
+        open invitation
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Setup Nama Tamu
+    const params = new URLSearchParams(window.location.search);
+    const guest = params.get("to");
+    if (guest) {
+      document.getElementById("guestName").innerHTML =
+        "Kepada Yth.<br><strong>" + decodeURIComponent(guest.replace(/\+/g, " ")) + "</strong>";
+    }
+
+    // 2. Inisialisasi Howler.js
+    var sound = new Howl({
+      src: ['music.mp3'], // Pastikan file music.mp3 satu folder dengan index.html
+      autoplay: false,
+      loop: true,
+      volume: 0.8,
+      html5: true, // Penting agar lancar di mobile Safari
+      onplayerror: function() {
+        sound.once('unlock', function() {
+          sound.play();
+        });
+      }
+    });
+
+    // 3. Logika Klik Tombol
+    document.getElementById('playBtn').addEventListener('click', function() {
+      // Putar musik segera setelah interaksi
+      sound.play();
+
+      // Ganti teks tombol agar user tahu proses sedang berjalan
+      this.innerText = "Load...";
+
+      // Link tujuan
+      const invitationUrl = "https://undanganputra.my.canva.site/satya-della-wedding";
+
+      // Beri sedikit delay (300ms) agar Safari mengunci status 'playing' 
+      // sebelum fokus berpindah ke tab baru
+      setTimeout(function() {
+        window.open(invitationUrl, "_blank");
+        // Kembalikan teks tombol
+        document.getElementById('playBtn').innerText = "It's Opened";
+      }, 300);
+    });
+  </script>
+
+</body>
+</html>
